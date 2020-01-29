@@ -1,7 +1,5 @@
 package shunting
 
-import "fmt"
-
 func isNumber(ch byte) bool {
 	if ch >= '0' && ch <= '9' {
 		return true
