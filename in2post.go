@@ -98,6 +98,9 @@ func (in2post *In2Post) Parse(input string) []byte {
 			input = input[1:]
 		} else if in2post.isOperator(input[0]) {
 			for !stack.empty() && (in2post.Precedence[input[0]] < in2post.Precedence[stack.top()] || (in2post.Precedence[input[0]] == in2post.Precedence[stack.top()] && in2post.isLeftAssociative(input[0]))) {
+				if stack.top() == '(' {
+					break
+				}
 				output = append(output, stack.pop())
 			}
 

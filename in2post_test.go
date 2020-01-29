@@ -21,6 +21,7 @@ func byte_array_equal(a, b []byte) bool {
 func TestInfix2Post(t *testing.T) {
 
 	operators := []Operator{}
+	operators = append(operators, Operator{Value: '|', Precedence: 0, IsLeftAssociative: true})
 	operators = append(operators, Operator{Value: '.', Precedence: 1, IsLeftAssociative: true})
 	operators = append(operators, Operator{Value: '+', Precedence: 2, IsLeftAssociative: true})
 	operators = append(operators, Operator{Value: '-', Precedence: 2, IsLeftAssociative: true})
@@ -29,9 +30,9 @@ func TestInfix2Post(t *testing.T) {
 	operators = append(operators, Operator{Value: '^', Precedence: 4, IsLeftAssociative: false})
 
 	i2p := NewIn2Post(operators)
-	output := i2p.Parse("s+.a+")
+	output := i2p.Parse("(1|3)")
 
-	expect := []byte("s+a+.")
+	expect := []byte("13|")
 	if !byte_array_equal(output, expect) {
 		//t.Errorf("In2Post expected:%s, got:%s", expect, output)
 	}
