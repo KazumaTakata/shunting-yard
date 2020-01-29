@@ -124,19 +124,3 @@ func (in2post *In2Post) parse(input string) []byte {
 
 	return output
 }
-
-func main() {
-
-	operators := []Operator{}
-	operators = append(operators, Operator{value: '.', precedence: 1, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '+', precedence: 2, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '-', precedence: 2, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '*', precedence: 3, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '/', precedence: 3, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '^', precedence: 4, isLeftAssociative: false})
-
-	i2p := NewIn2Post(operators)
-	output := i2p.parse("s+.a+")
-
-	fmt.Printf("%s", output)
-}
