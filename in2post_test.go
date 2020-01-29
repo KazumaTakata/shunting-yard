@@ -21,15 +21,15 @@ func byte_array_equal(a, b []byte) bool {
 func TestInfix2Post(t *testing.T) {
 
 	operators := []Operator{}
-	operators = append(operators, Operator{value: '.', precedence: 1, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '+', precedence: 2, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '-', precedence: 2, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '*', precedence: 3, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '/', precedence: 3, isLeftAssociative: true})
-	operators = append(operators, Operator{value: '^', precedence: 4, isLeftAssociative: false})
+	operators = append(operators, Operator{Value: '.', Precedence: 1, IsLeftAssociative: true})
+	operators = append(operators, Operator{Value: '+', Precedence: 2, IsLeftAssociative: true})
+	operators = append(operators, Operator{Value: '-', Precedence: 2, IsLeftAssociative: true})
+	operators = append(operators, Operator{Value: '*', Precedence: 3, IsLeftAssociative: true})
+	operators = append(operators, Operator{Value: '/', Precedence: 3, IsLeftAssociative: true})
+	operators = append(operators, Operator{Value: '^', Precedence: 4, IsLeftAssociative: false})
 
 	i2p := NewIn2Post(operators)
-	output := i2p.parse("s+.a+")
+	output := i2p.Parse("s+.a+")
 
 	expect := []byte("s+a+.")
 	if !byte_array_equal(output, expect) {

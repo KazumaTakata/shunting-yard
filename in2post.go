@@ -44,7 +44,7 @@ func (s *stack) empty() bool {
 }
 
 type In2Post struct {
-	precedence       map[byte]int
+	Precedence       map[byte]int
 	rightAssociative []byte
 }
 
@@ -52,21 +52,21 @@ func NewIn2Post(operators []Operator) In2Post {
 	precedence := map[byte]int{}
 	rightAssociative := []byte{}
 	for _, operator := range operators {
-		precedence[operator.value] = operator.precedence
-		if !operator.isLeftAssociative {
-			rightAssociative = append(rightAssociative, operator.value)
+		precedence[operator.Value] = operator.Precedence
+		if !operator.IsLeftAssociative {
+			rightAssociative = append(rightAssociative, operator.Value)
 		}
 	}
 
-	in2post := In2Post{precedence: precedence, rightAssociative: rightAssociative}
+	in2post := In2Post{Precedence: precedence, rightAssociative: rightAssociative}
 	return in2post
 
 }
 
 type Operator struct {
-	value             byte
-	precedence        int
-	isLeftAssociative bool
+	Value             byte
+	Precedence        int
+	IsLeftAssociative bool
 }
 
 func (in2post *In2Post) isLeftAssociative(ch byte) bool {
@@ -79,7 +79,7 @@ func (in2post *In2Post) isLeftAssociative(ch byte) bool {
 }
 
 func (in2post *In2Post) isOperator(ch byte) bool {
-	for op, _ := range in2post.precedence {
+	for op, _ := range in2post.Precedence {
 		if op == ch {
 			return true
 		}
@@ -87,7 +87,7 @@ func (in2post *In2Post) isOperator(ch byte) bool {
 	}
 	return false
 }
-func (in2post *In2Post) parse(input string) []byte {
+func (in2post *In2Post) Parse(input string) []byte {
 
 	stack := stack{}
 	output := []byte{}
@@ -97,7 +97,7 @@ func (in2post *In2Post) parse(input string) []byte {
 			output = append(output, input[0])
 			input = input[1:]
 		} else if in2post.isOperator(input[0]) {
-			for !stack.empty() && (in2post.precedence[input[0]] < in2post.precedence[stack.top()] || (in2post.precedence[input[0]] == in2post.precedence[stack.top()] && in2post.isLeftAssociative(input[0]))) {
+			for !stack.empty() && (in2post.Precedence[input[0]] < in2post.Precedence[stack.top()] || (in2post.Precedence[input[0]] == in2post.Precedence[stack.top()] && in2post.isLeftAssociative(input[0]))) {
 				output = append(output, stack.pop())
 			}
 
