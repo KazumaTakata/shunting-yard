@@ -116,7 +116,11 @@ func (in2post *In2Post) Parse(input string) []byte {
 				token = stack.pop()
 			}
 			input = input[1:]
+		} else if input[0] == '\\' {
+			output = append(output, input[:2]...)
+			input = input[2:]
 		}
+
 	}
 
 	for !stack.empty() {
