@@ -46,10 +46,10 @@ func (s *stack) empty() bool {
 type In2Post struct {
 	Precedence       map[byte]int
 	rightAssociative []byte
-	ignore_paren     bool
+	add_paren        bool
 }
 
-func NewIn2Post(operators []Operator, ignore_paren bool) In2Post {
+func NewIn2Post(operators []Operator, add_paren bool) In2Post {
 	precedence := map[byte]int{}
 	rightAssociative := []byte{}
 	for _, operator := range operators {
@@ -59,7 +59,7 @@ func NewIn2Post(operators []Operator, ignore_paren bool) In2Post {
 		}
 	}
 
-	in2post := In2Post{Precedence: precedence, rightAssociative: rightAssociative, ignore_paren: ignore_paren}
+	in2post := In2Post{Precedence: precedence, rightAssociative: rightAssociative, add_paren: add_paren}
 	return in2post
 
 }
@@ -107,22 +107,21 @@ func (in2post *In2Post) Parse(input string) []byte {
 
 			stack.push(input[0])
 			input = input[1:]
-		} else if input[0] == '(' || input[0] == ')' {
-			if !in2post.ignore_paren {
-				if input[0] == '(' {
-					stack.push(input[0])
-					input = input[1:]
-				} else if input[0] == ')' {
-					token := stack.pop()
-					for token != '(' {
-						output = append(output, token)
-						token = stack.pop()
-					}
-					input = input[1:]
-				}
-			} else {
-				output = append(output, input[0])
-				input = input[1:]
+		} else if input[0] == '(' {
+			stack.push(input[0])
+			input = input[1:]
+			if in2post.add_paren {
+				output = append(output, '(')
+			}
+		} else if input[0] == ')' {
+			token := stack.pop()
+			for token != '(' {
+				output = append(output, token)
+				token = stack.pop()
+			}
+			input = input[1:]
+			if in2post.add_paren {
+				output = append(output, ')')
 			}
 		} else if input[0] == '\\' {
 			output = append(output, input[:2]...)

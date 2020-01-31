@@ -34,7 +34,15 @@ func TestInfix2Post(t *testing.T) {
 
 	expect := []byte("13|")
 	if !byte_array_equal(output, expect) {
-		//t.Errorf("In2Post expected:%s, got:%s", expect, output)
+		t.Errorf("In2Post expected:%s, got:%s", expect, output)
+	}
+
+	i2p = NewIn2Post(operators, true)
+	output = i2p.Parse("a+.(b+)")
+
+	expect = []byte("a+(b+).")
+	if !byte_array_equal(output, expect) {
+		t.Errorf("In2Post expected:%s, got:%s", expect, output)
 	}
 
 }
