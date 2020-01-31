@@ -29,7 +29,7 @@ func TestInfix2Post(t *testing.T) {
 	operators = append(operators, Operator{Value: '/', Precedence: 3, IsLeftAssociative: true})
 	operators = append(operators, Operator{Value: '^', Precedence: 4, IsLeftAssociative: false})
 
-	i2p := NewIn2Post(operators)
+	i2p := NewIn2Post(operators, false)
 	output := i2p.Parse("(1|3)")
 
 	expect := []byte("13|")
