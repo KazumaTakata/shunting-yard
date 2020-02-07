@@ -17,6 +17,14 @@ func isAlphabet(ch byte) bool {
 
 }
 
+func isWord(ch byte) bool {
+	if isNumber(ch) || isAlphabet(ch) || ch == '_' {
+		return true
+	}
+
+	return false
+}
+
 type stack struct {
 	stack []byte
 }
@@ -94,7 +102,7 @@ func (in2post *In2Post) Parse(input string) []byte {
 	output := []byte{}
 
 	for len(input) > 0 {
-		if isNumber(input[0]) || isAlphabet(input[0]) {
+		if isWord(input[0]) {
 			output = append(output, input[0])
 			input = input[1:]
 		} else if in2post.isOperator(input[0]) {
